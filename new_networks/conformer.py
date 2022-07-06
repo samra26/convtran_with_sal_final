@@ -664,7 +664,7 @@ class JL_DCF(nn.Module):
         self.coarse_layer=coarse_layer
         self.gde_layers=gde_layers
         self.decoder=decoder
-        self.final_conv=nn.Conv2d(4,1,1,1,1)
+        self.final_conv=nn.Conv2d(4,1,1,1,0)
         
     def forward(self, f_all):
         x,y,q,k,v = self.JLModule(f_all)
