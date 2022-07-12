@@ -16,8 +16,8 @@ def get_test_info(config):
         image_root = '../testsod/RGBD135/RGBD135/'
         image_source = '../testsod/RGBD135/RGBD135/test.lst'
     elif config.sal_mode == 'LFSD':
-        image_root = '../testsod/LFSD/LFSD/'
-        image_source = '../testsod/LFSD/LFSD/test.lst'
+        image_root = '/content/dataset/LFSD/'
+        image_source = '/content/dataset/LFSD/test.lst'
     elif config.sal_mode == 'NLPR':
         image_root = '../testsod/NLPR/NLPR/'
         image_source = '../testsod/NLPR/NLPR/test.lst'
