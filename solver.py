@@ -89,8 +89,9 @@ class Solver(object):
 
                 input = torch.cat((images, depth), dim=0)
                 preds,sal_lde_conv,sal_lde_tran,sal_gde_conv,sal_gde_tran, pred_coarse = self.net(input)
-                preds = F.interpolate(preds, tuple(im_size), mode='bilinear', align_corners=True)
-                pred = np.squeeze(torch.sigmoid(preds)).cpu().data.numpy()
+                print(preds.shape)
+                #preds = F.interpolate(preds, tuple(im_size), mode='bilinear', align_corners=True)
+                pred = np.squeeze(torch.sigmoid(preds),dim=0).cpu().data.numpy()
 
                 pred = (pred - pred.min()) / (pred.max() - pred.min() + 1e-8)
                 multi_fuse = 255 * pred
