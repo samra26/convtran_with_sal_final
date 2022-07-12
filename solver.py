@@ -89,13 +89,13 @@ class Solver(object):
 
                 input = torch.cat((images, depth), dim=0)
                 preds,sal_lde_conv,sal_lde_tran,sal_gde_conv,sal_gde_tran, pred_coarse = self.net(input)
-                print(preds.shape)
-                #preds = F.interpolate(preds, tuple(im_size), mode='bilinear', align_corners=True)
-                pred = np.squeeze(torch.sigmoid(preds),dim=0).cpu().data.numpy()
+                #print(preds.shape)
+                preds = F.interpolate(preds, tuple(im_size), mode='bilinear', align_corners=True)
+                pred = np.squeeze(torch.sigmoid(preds)).cpu().data.numpy()
 
                 pred = (pred - pred.min()) / (pred.max() - pred.min() + 1e-8)
                 multi_fuse = 255 * pred
-                filename = os.path.join(self.config.test_folder, name[:-4] + '_JLDCF.png')
+                filename = os.path.join(self.config.test_folder, name[:-4] + '_convtran.png')
                 cv2.imwrite(filename, multi_fuse)
         time_e = time.time()
         print('Speed: %f FPS' % (img_num / (time_e - time_s)))
@@ -151,8 +151,8 @@ class Solver(object):
                     aveGrad = 0
 
                 if (i + 1) % (self.show_every // self.config.batch_size) == 0:
-                    print('epoch: [%2d/%2d], iter: [%5d/%5d]  ||  Sal : %10.4f' % (
-                        epoch, self.config.epoch, i + 1, iter_num, r_sal_loss / (self.show_every / self.iter_size)))
+                    print('epoch: [%2d/%2d], iter: [%5d/%5d]  ||  Sal : %10.4f ,lde_c : %.4f,lde_t: %.4f,gde_c: %.4f,gde_t: %.4f' % (
+                        epoch, self.config.epoch, i + 1, iter_num, r_sal_loss / (self.show_every / self.iter_size),sal_loss_lde_conv.data,sal_loss_lde_tran.data,sal_loss_gde_conv.data,sal_loss_gde_tran.data))
                     # print('Learning rate: ' + str(self.lr))
                     writer.add_scalar('training loss', r_sal_loss / (self.show_every / self.iter_size),
                                       epoch * len(self.train_loader.dataset) + i)
