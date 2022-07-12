@@ -683,9 +683,9 @@ class JL_DCF(nn.Module):
             print('v',v[i].shape,len(v))'''
         sal_lde_conv,sal_lde_tran,sal_gde_conv,sal_gde_tran=self.decoder(lde_c,gde_c,lde_t,gde_t,q,k,v)
         final=torch.cat((sal_lde_conv[0],sal_lde_tran[0],sal_gde_conv[0],sal_gde_tran[0],sal_lde_conv[1],sal_lde_tran[1],sal_gde_conv[1],sal_gde_tran[1]),dim=0)
-        print('finalcat',final.shape)
+        #print('finalcat',final.shape)
         sal_final=self.final_conv((final).unsqueeze(0))
-        print('sal_final',sal_final.shape)
+        #print('sal_final',sal_final.shape)
         
         return sal_final,sal_lde_conv,sal_lde_tran,sal_gde_conv,sal_gde_tran,coarse_sal
 
