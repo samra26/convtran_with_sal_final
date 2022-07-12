@@ -126,15 +126,15 @@ class Solver(object):
                 
                 sal_input = torch.cat((sal_image, sal_depth), dim=0)
                 sal_final,sal_lde_conv,sal_lde_tran,sal_gde_conv,sal_gde_tran, sal_coarse = self.net(sal_input)
-                sal_label = torch.cat((sal_label, sal_label), dim=0)#need to be deleted
+                sal_labels = torch.cat((sal_label, sal_label), dim=0)#need to be deleted
                 sal_loss_coarse = F.binary_cross_entropy_with_logits(sal_coarse, sal_label_coarse, reduction='sum')
-                sal_loss_lde_conv = F.binary_cross_entropy_with_logits(sal_lde_conv, sal_label, reduction='sum')
+                sal_loss_lde_conv = F.binary_cross_entropy_with_logits(sal_lde_conv, sal_labels, reduction='sum')
                 #print('sal_loss_lde_conv',sal_loss_lde_conv)
-                sal_loss_lde_tran = F.binary_cross_entropy_with_logits(sal_lde_tran, sal_label, reduction='sum')
+                sal_loss_lde_tran = F.binary_cross_entropy_with_logits(sal_lde_tran, sal_labels, reduction='sum')
                 #print('sal_loss_lde_tran',sal_loss_lde_tran)
-                sal_loss_gde_conv= F.binary_cross_entropy_with_logits(sal_gde_conv, sal_label, reduction='sum')
+                sal_loss_gde_conv= F.binary_cross_entropy_with_logits(sal_gde_conv, sal_labels, reduction='sum')
                 #print('sal_loss_gde_conv',sal_loss_gde_conv)
-                sal_loss_gde_tran = F.binary_cross_entropy_with_logits(sal_gde_tran, sal_label, reduction='sum')
+                sal_loss_gde_tran = F.binary_cross_entropy_with_logits(sal_gde_tran, sal_labels, reduction='sum')
                 #print('sal_loss_gde_tran',sal_loss_gde_tran)
                 sal_final_loss = F.binary_cross_entropy_with_logits(sal_final, sal_label, reduction='sum')
                 sal_loss_fuse = sal_final_loss+sal_loss_lde_conv/4 + sal_loss_lde_tran/4 + sal_loss_gde_conv/4 + sal_loss_gde_tran/4 + sal_loss_coarse
