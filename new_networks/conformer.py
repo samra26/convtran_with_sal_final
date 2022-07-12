@@ -664,7 +664,7 @@ class JL_DCF(nn.Module):
         self.coarse_layer=coarse_layer
         self.gde_layers=gde_layers
         self.decoder=decoder
-        self.final_conv=nn.Conv2d(4,1,1,1,0)
+        self.final_conv=nn.Conv2d(8,1,1,1,0)
         
     def forward(self, f_all):
         x,y,q,k,v = self.JLModule(f_all)
@@ -682,9 +682,9 @@ class JL_DCF(nn.Module):
             print('k',k[i].shape,len(k))
             print('v',v[i].shape,len(v))'''
         sal_lde_conv,sal_lde_tran,sal_gde_conv,sal_gde_tran=self.decoder(lde_c,gde_c,lde_t,gde_t,q,k,v)
-        final=torch.cat((sal_lde_conv,sal_lde_tran,sal_gde_conv,sal_gde_tran),dim=1)
+        final=torch.cat((sal_lde_conv[0],sal_lde_tran[0],sal_gde_conv[0],sal_gde_tran[0],sal_lde_conv[1],sal_lde_tran[1],sal_gde_conv[1],sal_gde_tran[1]),dim=1)
         sal_final=self.final_conv(final)
-        #print('sal_final',sal_final.shape)
+        print('sal_final',sal_final.shape)
         
         return sal_final,sal_lde_conv,sal_lde_tran,sal_gde_conv,sal_gde_tran,coarse_sal
 
