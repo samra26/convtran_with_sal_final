@@ -5,7 +5,7 @@ from solver import Solver
 import time
 
 
-def get_test_info(config):
+'''def get_test_info(config):
     if config.sal_mode == 'NJU2K':
         image_root = '../testsod/NJU2K_test/NJU2K_test/'
         image_source = '../testsod/NJU2K_test/NJU2K_test/test.lst'
@@ -31,7 +31,7 @@ def get_test_info(config):
         raise Exception('Invalid config.sal_mode')
 
     config.test_root = image_root
-    config.test_list = image_source
+    config.test_list = image_source'''
 
 
 def main(config):
@@ -97,7 +97,8 @@ if __name__ == '__main__':
     parser.add_argument('--test_folder', type=str, default='test/vgg16/LFSD/')  # Test results saving folder
     parser.add_argument('--sal_mode', type=str, default='LFSD',
                         choices=['NJU2K', 'NLPR', 'STERE', 'RGBD135', 'LFSD', 'SIP', 'ReDWeb-S'])  # Test image dataset
-
+    parser.add_argument('--test_root', type=str, default='../testsod')
+    parser.add_argument('--test_list', type=str, default='../testsod/test.lst')
     # Misc
     parser.add_argument('--mode', type=str, default='train', choices=['train', 'test'])
     config = parser.parse_args()
@@ -105,6 +106,6 @@ if __name__ == '__main__':
     if not os.path.exists(config.save_folder):
         os.mkdir(config.save_folder)
 
-    get_test_info(config)
+    #get_test_info(config)
 
     main(config)
