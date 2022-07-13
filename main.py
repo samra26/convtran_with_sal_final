@@ -44,7 +44,7 @@ def main(config):
         train = Solver(train_loader, None, config)
         train.train()
     elif config.mode == 'test':
-        get_test_info(config)
+        #get_test_info(config)
         test_loader = get_loader(config, mode='test')
         if not os.path.exists(config.test_folder): os.makedirs(config.test_folder)
         test = Solver(None, test_loader, config)
